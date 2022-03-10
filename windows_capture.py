@@ -26,7 +26,7 @@ while True:
     id = FindWindow(None, window_name)
     bbox = GetWindowRect(id)
     screen = np.array(ImageGrab.grab(bbox=bbox))
-    # screen = cv2.resize(screen, (1280,720), interpolation=cv2.INTER_LINEAR)
+    screen = cv2.resize(screen, (800,600), interpolation=cv2.INTER_LINEAR)
     new_screen = process_img(screen)
 
     cv2.imshow('window', new_screen)
