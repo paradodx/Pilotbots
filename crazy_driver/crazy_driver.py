@@ -1,10 +1,11 @@
+from turtle import up
 import numpy as np
 import cv2
 import time
 from PIL import ImageGrab
 from win32gui import FindWindow, GetWindowRect
-from directkeys import PressKey, ReleaseKey, W, A, S, D, AUP, ADOWN, ALEFT, ARIGHT
 from draw_lanes import draw_lanes
+from decision import update
 
 def roi(img, vertices):
     
@@ -17,7 +18,6 @@ def roi(img, vertices):
     #returning the image only where mask pixels are nonzero
     masked = cv2.bitwise_and(img, mask)
     return masked
-
 
 
 def process_img(image):
@@ -58,31 +58,6 @@ def process_img(image):
 
     return processed_img,original_image, m1, m2
 
-def straight():
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(ARIGHT)
-
-def left():
-    PressKey(ALEFT)
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ARIGHT)
-    ReleaseKey(AUP)
-
-def right():
-    PressKey(ARIGHT)
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(AUP)
-
-def slow_ya_roll():
-    ReleaseKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(ARIGHT)
-    ReleaseKey(ADOWN)
 
 for i in list(range(4))[::-1]:
     print(i+1)
@@ -93,11 +68,11 @@ t0 = time.time()
 ldStuckCount = 0
 rdStuckCount = 0
 sStuckCount = 0
-
 while True:
 
     # "Cyberpunk 2077 (C) 2020 by CD Projekt RED"
-    window_name = "Need for Speed™ Payback"
+    # "Need for Speed™ Payback"
+    window_name = "Forza Horizon 4"
     id = FindWindow(None, window_name)
     bbox = GetWindowRect(id)
     screen = np.array(ImageGrab.grab(bbox=bbox))
@@ -106,47 +81,8 @@ while True:
     new_screen, original_image, m1, m2 = process_img(screen)
     cv2.imshow('window2',cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
 
-    if (sStuckCount >= 100):
-        print('s stuck')
-        slow_ya_roll()
+    ldStuckCount, rdStuckCount, sStuckCount = update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, False)
 
-        if (np.random.choice([0,1])):
-            PressKey(ARIGHT)
-        else:
-            PressKey(ALEFT)
-        
-        PressKey(ADOWN)
-        time.sleep(4)
-        sStuckCount = 0
-
-    if (ldStuckCount >= 50):
-        print('l stuck')
-        slow_ya_roll()
-        PressKey(ARIGHT)
-        PressKey(ADOWN)
-        time.sleep(2)
-        ldStuckCount = 0
-
-    if (rdStuckCount >= 50):
-        print('r stuck')
-        slow_ya_roll()
-        PressKey(ALEFT)
-        PressKey(ADOWN)
-        time.sleep(2)
-        rdStuckCount = 0
-
-
-    if m1 < 0 and m2 < 0:
-        rdStuckCount += 1
-        right()
-    elif m1 > 0  and m2 > 0:
-        ldStuckCount += 1
-        left()
-    else:
-
-        sStuckCount += 1
-        straight()
-    
     # print('Done. (%.3fs)' % (time.time() - t0))
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
