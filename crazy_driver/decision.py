@@ -64,9 +64,7 @@ def pynReleaseAll():
 
 def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
 
-    print(sStuckCount)
-
-    if (sStuckCount >= 100):
+    if (sStuckCount >= 50):
         print('s stuck')
 
         if (dx): releaseAll() 
@@ -85,23 +83,8 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
         time.sleep(4)
         sStuckCount = 0
 
-    if (ldStuckCount >= 50):
+    if (ldStuckCount >= 20):
         print('l stuck')
-
-        if (dx): 
-            releaseAll()
-            PressKey(ARIGHT)
-            PressKey(ADOWN)
-        else: 
-            pynReleaseAll()
-            keyboard.press(Key.right)
-            keyboard.press(Key.down)
-
-        time.sleep(2)
-        ldStuckCount = 0
-
-    if (rdStuckCount >= 50):
-        print('r stuck')
 
         if (dx): 
             releaseAll()
@@ -110,6 +93,21 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
         else: 
             pynReleaseAll()
             keyboard.press(Key.left)
+            keyboard.press(Key.down)
+
+        time.sleep(2)
+        ldStuckCount = 0
+
+    if (rdStuckCount >= 20):
+        print('r stuck')
+
+        if (dx): 
+            releaseAll()
+            PressKey(ARIGHT)
+            PressKey(ADOWN)            
+        else: 
+            pynReleaseAll()
+            keyboard.press(Key.right)
             keyboard.press(Key.down)
 
         time.sleep(2)
@@ -123,18 +121,22 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
         if (dx): right()
         else: pynRight()
 
-    elif m1 > 0  and m2 > 0:
+    elif m1 > 0 and m2 > 0:
         ldStuckCount += 1
         sStuckCount = 0
 
         if (dx): left()
         else: pynLeft()
     
-    else:
+    elif m1 > 0 and m2 < 0 :
         sStuckCount += 1
         rdStuckCount = 0
         ldStuckCount = 0
+        if (dx): straight()
+        else: pynStraight()
 
+    else:
+        sStuckCount += 1
         if (dx): straight()
         else: pynStraight()
 
