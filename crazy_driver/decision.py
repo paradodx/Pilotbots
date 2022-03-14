@@ -10,57 +10,57 @@ keyboard = Controller()
 
 
 def straight():
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(ARIGHT)
+    ReleaseKey(S)
+    PressKey(W)
+    ReleaseKey(A)
+    ReleaseKey(D)
 
 def left():
-    PressKey(ALEFT)
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ARIGHT)
-    ReleaseKey(AUP)
+    PressKey(A)
+    ReleaseKey(S)
+    PressKey(W)
+    ReleaseKey(D)
+    ReleaseKey(W)
 
 def right():
-    PressKey(ARIGHT)
-    ReleaseKey(ADOWN)
-    PressKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(AUP)
+    PressKey(D)
+    ReleaseKey(S)
+    PressKey(W)
+    ReleaseKey(A)
+    ReleaseKey(W)
 
 def releaseAll():
-    ReleaseKey(AUP)
-    ReleaseKey(ALEFT)
-    ReleaseKey(ARIGHT)
-    ReleaseKey(ADOWN)
+    ReleaseKey(W)
+    ReleaseKey(A)
+    ReleaseKey(D)
+    ReleaseKey(S)
 
 
 def pynStraight():
-    keyboard.release(Key.down)
-    keyboard.press(Key.up)
-    keyboard.release(Key.left)
-    keyboard.release(Key.right)
+    keyboard.release('s')
+    keyboard.press('w')
+    keyboard.release('a')
+    keyboard.release('d')
 
 def pynLeft():
-    keyboard.press(Key.left)
-    keyboard.release(Key.down)
-    keyboard.press(Key.up)
-    keyboard.release(Key.right)
-    keyboard.release(Key.up)
+    keyboard.press('a')
+    keyboard.release('s')
+    keyboard.press('w')
+    keyboard.release('d')
+    keyboard.release('w')
 
 def pynRight():
-    keyboard.press(Key.right)
-    keyboard.release(Key.down)
-    keyboard.press(Key.up)
-    keyboard.release(Key.left)
-    keyboard.release(Key.up)
+    keyboard.press('d')
+    keyboard.release('s')
+    keyboard.press('w')
+    keyboard.release('a')
+    keyboard.release('w')
 
 def pynReleaseAll():
-    keyboard.release(Key.up)
-    keyboard.release(Key.left)
-    keyboard.release(Key.right)
-    keyboard.release(Key.down)
+    keyboard.release('w')
+    keyboard.release('a')
+    keyboard.release('d')
+    keyboard.release('s')
 
 def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
 
@@ -71,15 +71,15 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
         else: pynReleaseAll()
 
         if (np.random.choice([0,1])):
-            if (dx): PressKey(ARIGHT)
-            else: keyboard.press(Key.right)
+            if (dx): PressKey(D)
+            else: keyboard.press('d')
         else:
-            if (dx): PressKey(ALEFT)
-            else: keyboard.press(Key.left)
+            if (dx): PressKey(A)
+            else: keyboard.press('a')
 
 
-        if (dx): PressKey(ADOWN)
-        else: keyboard.press(Key.down)
+        if (dx): PressKey(S)
+        else: keyboard.press('s')
         time.sleep(4)
         sStuckCount = 0
 
@@ -88,12 +88,12 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
 
         if (dx): 
             releaseAll()
-            PressKey(ALEFT)
-            PressKey(ADOWN)
+            PressKey(A)
+            PressKey(S)
         else: 
             pynReleaseAll()
-            keyboard.press(Key.left)
-            keyboard.press(Key.down)
+            keyboard.press('a')
+            keyboard.press('s')
 
         time.sleep(2)
         ldStuckCount = 0
@@ -103,12 +103,12 @@ def update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, dx = True):
 
         if (dx): 
             releaseAll()
-            PressKey(ARIGHT)
-            PressKey(ADOWN)            
+            PressKey(D)
+            PressKey(S)            
         else: 
             pynReleaseAll()
-            keyboard.press(Key.right)
-            keyboard.press(Key.down)
+            keyboard.press('d')
+            keyboard.press('s')
 
         time.sleep(2)
         rdStuckCount = 0
