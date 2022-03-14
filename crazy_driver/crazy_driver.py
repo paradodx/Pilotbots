@@ -72,7 +72,7 @@ while True:
 
     # "Cyberpunk 2077 (C) 2020 by CD Projekt RED"
     # "Need for Speed™ Payback"
-    window_name = "Forza Horizon 4"
+    window_name = "Need for Speed™ Heat"
     id = FindWindow(None, window_name)
     bbox = GetWindowRect(id)
     screen = np.array(ImageGrab.grab(bbox=bbox))
