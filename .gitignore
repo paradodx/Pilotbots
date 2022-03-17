@@ -10,3 +10,6 @@ inference/
 *.pt
 *.tar
 *.tar.gz
+*.index
+*.meta
+*.data-00000-of-00001
