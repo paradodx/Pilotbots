@@ -13,16 +13,18 @@ def keys_to_output(keys):
     '''
     Convert keys to a ...multi-hot... array
 
-    [A,W,D] boolean values.
+    [A,W,D,S] boolean values.
     '''
-    output = [0,0,0]
+    output = [0,0,0,0]
     
     if 'A' in keys:
         output[0] = 1
     elif 'D' in keys:
         output[2] = 1
-    else:
+    elif 'W' in keys:
         output[1] = 1
+    else:
+        output[3] = 1
     return output
 
 np_load_old = np.load
@@ -50,7 +52,9 @@ def main():
 
         if not paused:
 
-            window_name = "Need for Speed™ Payback"
+            # "Need for Speed™ Payback"
+            # "F1 2021 (DirectX 12)"
+            window_name = "F1 2021 (DirectX 12)"
             id = FindWindow(None, window_name)
             bbox = GetWindowRect(id)
             screen = np.array(ImageGrab.grab(bbox=bbox))
