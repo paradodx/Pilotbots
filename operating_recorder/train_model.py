@@ -10,6 +10,9 @@ MODEL_NAME = 'pilotbots-car-fast-{}-{}-{}-epochs-300K-data.model'.format(LR, 'al
 
 model = alexnet(WIDTH, HEIGHT, LR)
 
+np_load_old = np.load
+np.load = lambda *a, **k: np_load_old(*a, allow_pickle=True, **k)
+
 hm_data = 22
 for i in range(EPOCHS):
     for i in range(1,hm_data+1):
