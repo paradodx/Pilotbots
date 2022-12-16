@@ -32,7 +32,7 @@ def process_img(image):
     vertices = np.array([[132, 500], [132, 350], [300, 250], [500, 250], [655, 350], [655, 500]],
                         np.int32)  # Need for Speed 20 bumper view
 
-    processed_img = roi(processed_img, [vertices])
+    # processed_img = roi(processed_img, [vertices])
 
     # more info: http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html
     #                                     rho   theta   thresh  min length, max gap:        
@@ -41,8 +41,8 @@ def process_img(image):
     m2 = 0
     try:
         l1, l2, m1, m2 = draw_lanes(original_image, lines)
-        cv2.line(original_image, (l1[0], l1[1]), (l1[2], l1[3]), [0, 255, 0], 30)
-        cv2.line(original_image, (l2[0], l2[1]), (l2[2], l2[3]), [0, 255, 0], 30)
+        cv2.line(original_image, (l1[0], l1[1]), (l1[2], l1[3]), [0, 255, 0], 10)
+        cv2.line(original_image, (l2[0], l2[1]), (l2[2], l2[3]), [0, 255, 0], 10)
     except Exception as e:
         pass
     try:
@@ -59,32 +59,51 @@ def process_img(image):
 
     return processed_img, original_image, m1, m2
 
+# read video
 
-for i in list(range(6))[::-1]:
+for i in list(range(5))[::-1]:
     print(i + 1)
     time.sleep(1)
 
-t0 = time.time()
-# ldStuckCount = 0
-# rdStuckCount = 0
-# sStuckCount = 0
-while True:
+cap = cv2.VideoCapture('TestVideo.mp4') 
 
-    # "Cyberpunk 2077 (C) 2020 by CD Projekt RED"
-    # "Need for Speed™ Payback"
-    # "Need for Speed™ Heat"
-    window_name = "Windows Media Player"
-    id = FindWindow(None, window_name)
-    bbox = GetWindowRect(id)
-    screen = np.array(ImageGrab.grab(bbox=bbox))
-    screen = cv2.resize(screen, (1000, 800), interpolation=cv2.INTER_LINEAR)
+while(cap.isOpened()): 
+    ret, frame = cap.read()
+    print(ret)
+    cv2.imshow('image', frame) 
 
-    new_screen, original_image, m1, m2 = process_img(screen)
+    new_screen, original_image, m1, m2 = process_img(frame)
     cv2.imshow('window', cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
-    
-    # ldStuckCount, rdStuckCount, sStuckCount = update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, False)
 
-    # print('Done. (%.3fs)' % (time.time() - t0))
     if cv2.waitKey(25) & 0xFF == ord('q'):
+        cap.release() 
         cv2.destroyAllWindows()
         break
+
+cap.release() 
+cv2.destroyAllWindows()
+
+# read game old way
+
+# while True:
+
+#     # "Cyberpunk 2077 (C) 2020 by CD Projekt RED"
+#     # "Need for Speed™ Payback"
+#     # "Need for Speed™ Heat"
+#     # "TestVideo.mp4 - VLC media player"
+#     window_name = "TestVideo.mp4 - VLC media player"
+#     id = FindWindow(None, window_name)
+#     bbox = GetWindowRect(id)
+#     print(bbox)
+#     screen = np.array(ImageGrab.grab(bbox=bbox))
+#     screen = cv2.resize(screen, (1000, 800), interpolation=cv2.INTER_LINEAR)
+
+#     new_screen, original_image, m1, m2 = process_img(screen)
+#     cv2.imshow('window', cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
+    
+#     # ldStuckCount, rdStuckCount, sStuckCount = update(m1, m2, ldStuckCount, rdStuckCount, sStuckCount, False)
+
+#     # print('Done. (%.3fs)' % (time.time() - t0))
+#     if cv2.waitKey(25) & 0xFF == ord('q'):
+#         cv2.destroyAllWindows()
+#         break
